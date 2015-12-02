@@ -7,7 +7,7 @@ void setup()
   pinMode(pin, OUTPUT);
   pinMode(A0, INPUT);
   
-  analogWrite(pin,50);
+  analogWrite(pin,127);
   Serial.begin(9600);
 }
 
