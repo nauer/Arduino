@@ -1,13 +1,13 @@
-// hello_world.ino
+/* Hello World - Arduino */
 const int pin = 13; // also the SMD Led on the Arduino
 
-void setup()
+void setup() 
 {
-  // Set pin 13 in output mode
-  pinMode(pin, OUTPUT);
+  // assumes the LED is connected to pin 13 on the arduino uno
+  pinMode(pin, OUTPUT);     
 }
 
-void loop()
+void loop() 
 {
   digitalWrite(pin, HIGH);  // turn the LED on
   delay(1000);              // wait for a second
