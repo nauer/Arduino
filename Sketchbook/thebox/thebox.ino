@@ -1,5 +1,11 @@
 #include <Servo.h>
 #include "monkey_island_notes.h"
+// include the library code:
+#include <LiquidCrystal.h>
+
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(12, 11, 8, 7, 6, 5);
+
 
 // Serial communication
 const unsigned int BAUD_RATE = 9600;
@@ -22,6 +28,10 @@ const int clockPin = 3;
 const int dataPin = 2;
 const int ledpos[] = {0, 1, 2, 4, 8, 16, 32, 64, 128};
 
+// lcd row 1 & 2
+String row1;
+String row2;
+
 void setup() 
 {
   // Start serial communication
@@ -38,6 +48,12 @@ void setup()
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
+  
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  row1 = " Monkey Island";
+  row2 = "Insult-Generator";        
+  printLcd(" Monkey Island",row2);
 }
 
 void loop()
@@ -48,7 +64,15 @@ void loop()
       Serial.println(input);
 
       if (input == "monkey_song")
-        play_monkey_song();        
+      {
+        row1 = "Currently,I play";
+        row2 = "the Monkey Song";        
+        printLcd(row1,row2);
+        play_monkey_song();
+        row1 = "Finished!! Ready";
+        row2 = "for new querys";        
+        printLcd(row1,row2);
+      }
       else if(input == "beep")
       {
         Serial.println("Beep");
@@ -142,7 +166,14 @@ void play_monkey_song()
   digitalWrite(latchPin, HIGH);
 }
 
-  
+void printLcd(String row1, String row2)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);       
+  lcd.print(row1);
+  lcd.setCursor(0, 1);
+  lcd.print(row2);
+}
   /*if (Serial.available() > 0) // Don't read unless
   {
     incomingByte = Serial.read();
