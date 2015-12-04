@@ -24,14 +24,15 @@ void loop()
   // get the echo
   // count time until ECHO pin is HIGH
   length = pulseIn(ECHO, HIGH);
-  Serial.print("Distance to nerest object:");
+  Serial.print("Distance to nearest object:");
   Serial.println(microseconds_to_cm(length));
   delay(500);  
 }
 
 const float microseconds_to_cm(const unsigned long microseconds)
 {
-  // 343m/s -> 29.155 microseconds/cm / 2 echo takes 2 times the same distance
+  // 343m/s -> 29.155 microseconds/cm / 2 
+  // echo takes 2 times the same distance
   return max(0, microseconds / microseconds_per_cm / 2);
 }
 
