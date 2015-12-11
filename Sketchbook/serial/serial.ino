@@ -1,4 +1,4 @@
-int pirPin = 7;
+const int pirPin = 7;
  
 int minSecsBetweenEmails = 60; // 1 min
  
