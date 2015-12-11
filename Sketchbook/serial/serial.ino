@@ -1,51 +1,29 @@
-// TMP36.ino
-boolean isMessage = false;
-boolean trig = false;
-byte input = 0;
-const byte led = 13;
-
-
+int pirPin = 7;
+ 
+int minSecsBetweenEmails = 60; // 1 min
+ 
+long lastSend = -minSecsBetweenEmails * 1000l;
+ 
 void setup()
 {
-  pinMode(A0, INPUT);
+  pinMode(pirPin, INPUT);
   Serial.begin(9600);
 }
-
+ 
 void loop()
 {
-  if (isMessage)
+  long now = millis();
+  if (digitalRead(pirPin) == HIGH)
   {
-    switch (input)
+    if (now > (lastSend + minSecsBetweenEmails * 1000l))
     {
-      case 1: // Start reading
-        trig = true;
-        break;
-      default: // Stop everything
-        trig = false;      
-        break;
+      Serial.println("MOVEMENT");
+      lastSend = now;
     }
-    isMessage = false;
+    else
+    {
+      Serial.println("Too soon");
+    }
   }
-  
-  if (trig)
-  {
-    digitalWrite(led, HIGH);
-    Serial.print(map(analogRead(A0),0,410,-50,150));
-  }
-  else
-    digitalWrite(led, LOW);
-    
-  delay(1000);
-}
-
-void serialEvent()
-{
-  // is something in the buffer
-  while (Serial.available())
-  {
-    // get the new byte:
-    //input = Serial.read(); Convert to character
-    input = Serial.parseInt();
-    isMessage = true;
-  }
+  delay(500);
 }
